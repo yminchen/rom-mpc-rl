@@ -1,0 +1,39 @@
+PPO.exp_configs = @PPOConfigs()
+
+# general setting
+PPOConfigs.exp_name = "cassie-rom-mpc-ppo"
+PPOConfigs.random_seed = 1
+PPOConfigs.use_cuda = True
+PPOConfigs.torch_deterministic = True
+PPOConfigs.sync_with_wandb = True
+PPOConfigs.wandb_project_name = "cassie-rom-mpc-ppo"
+PPOConfigs.wandb_entity = "username"
+PPOConfigs.capture_video = False
+
+# ppo specific settings
+PPOConfigs.env_id = "none"
+PPOConfigs.env_config_name = "none"
+PPOConfigs.sample_size = 4000  #2000  #20000
+PPOConfigs.total_samples = 1000000  #5000000
+PPOConfigs.total_samples_for_value_initialization = 100000  #20000   # with 20000 we can see the decrease in Value function; wouldn't need this if it's initialized to previously learned Value function
+PPOConfigs.policy_learning_rate = 1e-3  #3e-4  # for adam
+PPOConfigs.critic_learning_rate = 3e-3  # for adam
+PPOConfigs.num_envs = 1
+
+PPOConfigs.gamma = 0.99
+PPOConfigs.gae_lambda = 0.95  # averaging the advantage function
+PPOConfigs.anneal_lr = True  # slow down the learning rate over time
+PPOConfigs.minibatch_size = 64
+PPOConfigs.update_epochs = 5  #5-10
+PPOConfigs.clip_coef = 0.2
+PPOConfigs.vf_coef = 1
+#PPOConfigs.max_grad_norm = 0.5
+#PPOConfigs.target_kl = None
+
+PPOConfigs.net_arch_value_func = (64, 64)   # do we really need (128, 128)?
+PPOConfigs.policy_type = "MPC"
+
+# MPC policy
+PPOConfigs.init_var = 1e-5  #1e-6  # remember this is std^2; we can make variance bigger if we have noise bound in the MPC thread
+PPOConfigs.max_var = 10  #1e-2
+PPOConfigs.policy_output_noise_bound = 1e-3
